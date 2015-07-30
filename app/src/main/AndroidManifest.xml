@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.database.zhangxq.databasedemo">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".application.DemoApplication"
         android:allowBackup="true"
@@ -32,9 +34,9 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.AddActivity_"
-            android:theme="@style/AppThemeFullScreen" />
+        <activity android:name=".ui.sugerrecorddemo.AddActivity_" />
+        <activity android:name=".ui.sugerrecorddemo.SugerRecordActivity_" />
+        <activity android:name=".ui.volley.VolleyActivity_" />
 
     </application>
 
