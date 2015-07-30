@@ -20,24 +20,19 @@ import org.json.JSONObject;
  */
 public class TestService {
 
-    public void getTestData(final AsyncResponseHandler handler, final Context context) {
-        BackgroundExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                StringRequest stringRequest = new StringRequest("http://www.baidu.com",
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                handler.sendSuccessMessage(response);
-                            }
-                        }, new Response.ErrorListener() {
+    public void getTestData(final AsyncResponseHandler handler) {
+        StringRequest stringRequest = new StringRequest("http://www.baidu.com",
+                new Response.Listener<String>() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        handler.sendFailureMessage(error, "网络访问失败", 0);
+                    public void onResponse(String response) {
+                        handler.sendSuccessMessage(response);
                     }
-                });
-                GlobalTools.getRequestQueue().add(stringRequest);
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                handler.sendFailureMessage(error, "网络访问失败", 0);
             }
         });
+        GlobalTools.getRequestQueue().add(stringRequest);
     }
 }

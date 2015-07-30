@@ -40,6 +40,6 @@ public class VolleyActivity extends Activity {
             public void onFailure(Throwable error, String message, long code) {
                 Toast.makeText(VolleyActivity.this, message, Toast.LENGTH_LONG).show();
             }
-        }, this);
+        });
     }
 }
