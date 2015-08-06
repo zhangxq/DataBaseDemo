@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.database.zhangxq.databasedemo.R;
 import com.database.zhangxq.databasedemo.ui.sugerrecorddemo.SugerRecordActivity_;
+import com.database.zhangxq.databasedemo.ui.testedittext.TestEditTextActivity_;
 import com.database.zhangxq.databasedemo.ui.volley.VolleyActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -28,6 +29,12 @@ public class MainActivity extends Activity {
     @Click(R.id.buttonVolley)
     void onVolleyClick() {
         Intent intent = new Intent(this, VolleyActivity_.class);
+        startActivity(intent);
+    }
+
+    @Click(R.id.buttonEditTest)
+    void onEditTestClick() {
+        Intent intent = new Intent(this, TestEditTextActivity_.class);
         startActivity(intent);
     }
 }
