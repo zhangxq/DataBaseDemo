@@ -1,26 +1,26 @@
 package com.database.zhangxq.databasedemo.tools;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
+import com.database.zhangxq.databasedemo.api.TestApi;
 import com.database.zhangxq.databasedemo.application.DemoApplication;
+import com.database.zhangxq.databasedemo.utils.ACache;
+
+import retrofit.RestAdapter;
 
 /**
  * Created by zhangxq on 15/7/30.
  */
 public class GlobalTools {
 
-    private static RequestQueue requestQueue;
+    public static final String BASE_URL = "https://api.github.com";
+    private static RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(BASE_URL).build();
 
-    /**
-     * 获取网络访问队列
-     *
-     * @return
-     */
-    public static synchronized RequestQueue getRequestQueue() {
-        if (requestQueue == null) {
-            requestQueue = Volley.newRequestQueue(DemoApplication.applicationContext);
-        }
+    private static ACache aCache = ACache.get(DemoApplication.applicationContext);
 
-        return requestQueue;
+    public static ACache getACache() {
+        return aCache;
+    }
+
+    public static TestApi getTestApiImpl() {
+        return restAdapter.create(TestApi.class);
     }
 }

@@ -1,39 +1,70 @@
 package com.database.zhangxq.databasedemo.ui.volley;
 
 import android.app.Activity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.database.zhangxq.databasedemo.R;
+import com.database.zhangxq.databasedemo.model.Contributor;
 import com.database.zhangxq.databasedemo.service.TestService;
+import com.database.zhangxq.databasedemo.utils.ACache;
 import com.database.zhangxq.databasedemo.utils.AsyncResponseHandler;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by zhangxq on 15/7/30.
  */
 @EActivity(R.layout.activity_volley)
 public class VolleyActivity extends Activity {
+    private ACache aCache;
+    private static final String CONTRIBUTORS = "contributors";
+
     private TestService testService;
 
+    private List<Contributor> contributors;
+
     @ViewById
-    TextView textView;
+    ListView listView;
+
+    private ListViewAdapter adapter;
 
     @AfterViews
     void afterViews() {
         testService = new TestService();
+        contributors = new ArrayList<Contributor>();
+        adapter = new ListViewAdapter();
+        listView.setAdapter(adapter);
+
+        aCache = ACache.get(this);
+        List<Contributor> list = (List<Contributor>) aCache.getAsObject(CONTRIBUTORS);
+        if (list != null) {
+            contributors = list;
+            adapter.notifyDataSetChanged();
+        }
+
         getData();
     }
 
     private void getData() {
-        testService.getTestData(new AsyncResponseHandler() {
+        testService.getTestData("square", "retrofit", new AsyncResponseHandler() {
             @Override
             public void onSuccess(Object response) {
-                String data = (String) response;
-                textView.setText(data);
+                if (response != null) {
+                    contributors = (List<Contributor>) response;
+                    aCache.put(CONTRIBUTORS, (Serializable) contributors, 10);
+                    adapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -41,5 +72,48 @@ public class VolleyActivity extends Activity {
                 Toast.makeText(VolleyActivity.this, message, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private class ListViewAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return contributors.size();
+        }
+
+        @Override
+        public Contributor getItem(int i) {
+            return contributors.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            ViewHolder viewHolder;
+            if (view == null) {
+                view = View.inflate(VolleyActivity.this, R.layout.view_contributor_list_item, null);
+                viewHolder = new ViewHolder();
+                viewHolder.textViewLogin = (TextView) view.findViewById(R.id.textViewLogin);
+                viewHolder.textViewContributor = (TextView) view.findViewById(R.id.textViewContributor);
+                view.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) view.getTag();
+            }
+
+            Contributor contributor = getItem(i);
+            viewHolder.textViewLogin.setText(contributor.getLogin());
+            viewHolder.textViewContributor.setText(contributor.getContributions() + "");
+
+            return view;
+        }
+
+        private class ViewHolder {
+            public TextView textViewLogin;
+            public TextView textViewContributor;
+        }
     }
 }

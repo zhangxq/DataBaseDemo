@@ -6,11 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.database.zhangxq.databasedemo.R;
 import com.database.zhangxq.databasedemo.model.User;
-import com.database.zhangxq.databasedemo.view.ItemView;
-import com.database.zhangxq.databasedemo.view.ItemView_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -67,19 +66,30 @@ public class SugerRecordActivity extends Activity{
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            ItemView itemView = null;
+            ViewHolder viewHolder;
             if (view == null) {
-                itemView = ItemView_.build(SugerRecordActivity.this);
+                view = View.inflate(SugerRecordActivity.this, R.layout.view_database_list_item, null);
+                viewHolder = new ViewHolder();
+                viewHolder.textViewName = (TextView) view.findViewById(R.id.textViewName);
+                viewHolder.textViewPassword = (TextView) view.findViewById(R.id.textViewPassword);
+                viewHolder.textViewPhone = (TextView) view.findViewById(R.id.textViewPassword);
+                view.setTag(viewHolder);
             } else {
-                itemView = (ItemView) view;
+                viewHolder = (ViewHolder) view.getTag();
             }
 
             User user = getItem(i);
-            itemView.setName(user.getUserName());
-            itemView.setPassword(user.getPassword());
-            itemView.setPhone(user.getPhone());
+            viewHolder.textViewName.setText(user.getUserName());
+            viewHolder.textViewPassword.setText(user.getPassword());
+            viewHolder.textViewPhone.setText(user.getPhone());
 
-            return itemView;
+            return view;
+        }
+
+        private class ViewHolder {
+            public TextView textViewName;
+            public TextView textViewPassword;
+            public TextView textViewPhone;
         }
     }
 }
