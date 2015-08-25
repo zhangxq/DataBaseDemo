@@ -27,9 +27,6 @@ import java.util.List;
  */
 @EActivity(R.layout.activity_volley)
 public class VolleyActivity extends Activity {
-    private ACache aCache;
-    private static final String CONTRIBUTORS = "contributors";
-
     private TestService testService;
 
     private List<Contributor> contributors;
@@ -45,14 +42,6 @@ public class VolleyActivity extends Activity {
         contributors = new ArrayList<Contributor>();
         adapter = new ListViewAdapter();
         listView.setAdapter(adapter);
-
-        aCache = ACache.get(this);
-        List<Contributor> list = (List<Contributor>) aCache.getAsObject(CONTRIBUTORS);
-        if (list != null) {
-            contributors = list;
-            adapter.notifyDataSetChanged();
-        }
-
         getData();
     }
 
@@ -62,7 +51,6 @@ public class VolleyActivity extends Activity {
             public void onSuccess(Object response) {
                 if (response != null) {
                     contributors = (List<Contributor>) response;
-                    aCache.put(CONTRIBUTORS, (Serializable) contributors, 10);
                     adapter.notifyDataSetChanged();
                 }
             }
