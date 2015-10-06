@@ -6,6 +6,8 @@ import android.content.Intent;
 import com.database.zhangxq.databasedemo.R;
 import com.database.zhangxq.databasedemo.ui.sugerrecorddemo.SugerRecordActivity_;
 import com.database.zhangxq.databasedemo.ui.testedittext.TestEditTextActivity_;
+import com.database.zhangxq.databasedemo.ui.volley.LocalDataActivity;
+import com.database.zhangxq.databasedemo.ui.volley.LocalDataActivity_;
 import com.database.zhangxq.databasedemo.ui.volley.VolleyActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -37,4 +39,11 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, TestEditTextActivity_.class);
         startActivity(intent);
     }
+
+    @Click(R.id.buttonLocalDataTest)
+    void onLocalDataClick() {
+        Intent intent = new Intent(this, LocalDataActivity_.class);
+        startActivity(intent);
+    }
 }
+

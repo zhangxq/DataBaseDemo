@@ -38,7 +38,7 @@
         <activity android:name=".ui.sugerrecorddemo.SugerRecordActivity_" />
         <activity android:name=".ui.volley.VolleyActivity_" />
         <activity android:name=".ui.testedittext.TestEditTextActivity_" />
-
+        <activity android:name=".ui.volley.LocalDataActivity_" />
 
     </application>
 
