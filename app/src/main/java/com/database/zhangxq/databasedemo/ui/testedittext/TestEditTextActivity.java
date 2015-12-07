@@ -1,21 +1,21 @@
 package com.database.zhangxq.databasedemo.ui.testedittext;
 
 import android.app.Activity;
+import android.os.Bundle;
 
 import com.database.zhangxq.databasedemo.R;
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EActivity;
+import com.viewinject.ViewHelper;
 
 /**
  * Created by zhangxq on 15/8/5.
  */
 
-@EActivity(R.layout.activity_test_edittext)
 public class TestEditTextActivity extends Activity {
 
-    @AfterViews
-    void afterViews() {
-
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test_edittext);
+        ViewHelper.inject(this);
     }
 }

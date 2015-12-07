@@ -2,6 +2,7 @@ package com.database.zhangxq.databasedemo.ui.sugerrecorddemo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,25 +11,24 @@ import android.widget.TextView;
 
 import com.database.zhangxq.databasedemo.R;
 import com.database.zhangxq.databasedemo.model.User;
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
+import com.viewinject.ViewHelper;
+import com.viewinject.annotation.ViewInject;
+import com.viewinject.annotation.event.OnClick;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@EActivity(R.layout.activity_suger_record)
-public class SugerRecordActivity extends Activity{
-    @ViewById
+public class SugerRecordActivity extends Activity implements View.OnClickListener {
+    @ViewInject(R.id.listView)
     ListView listView;
     private ListAdapter listAdapter;
     private List<User> users;
 
-    @AfterViews
-    void afterViews() {
-
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_suger_record);
+        ViewHelper.inject(this);
     }
 
     @Override
@@ -41,9 +41,9 @@ public class SugerRecordActivity extends Activity{
         listView.setAdapter(listAdapter);
     }
 
-    @Click(R.id.textViewRight)
-    void onTextViewRightClick() {
-        Intent intent = new Intent(this, AddActivity_.class);
+    @OnClick(R.id.textViewRight)
+    public void onClick(View v) {
+        Intent intent = new Intent(this, AddActivity.class);
         startActivity(intent);
     }
 

@@ -1,37 +1,38 @@
 package com.database.zhangxq.databasedemo.ui.sugerrecorddemo;
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
 import com.database.zhangxq.databasedemo.R;
 import com.database.zhangxq.databasedemo.model.User;
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
+import com.viewinject.ViewHelper;
+import com.viewinject.annotation.ViewInject;
+import com.viewinject.annotation.event.OnClick;
 
 /**
  * Created by zhangxq on 2015/6/14.
  */
 
-@EActivity(R.layout.activity_add)
-public class AddActivity extends Activity {
+public class AddActivity extends Activity implements View.OnClickListener {
 
-    @ViewById
+    @ViewInject(R.id.editTextName)
     EditText editTextName;
-    @ViewById
+    @ViewInject(R.id.editTextPassword)
     EditText editTextPassword;
-    @ViewById
+    @ViewInject(R.id.editTextPhone)
     EditText editTextPhone;
 
-    @AfterViews
-    void afterViews() {
-
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add);
+        ViewHelper.inject(this);
     }
 
-    @Click(R.id.buttonAdd)
-    void onButtonAddClick() {
+    @OnClick(R.id.buttonAdd)
+    public void onClick(View v) {
         String name = editTextName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         String phone = editTextPhone.getText().toString().trim();

@@ -1,7 +1,7 @@
 package com.database.zhangxq.databasedemo.ui.volley;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,32 +10,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.database.zhangxq.databasedemo.R;
-import com.database.zhangxq.databasedemo.model.Contributor;
 import com.database.zhangxq.databasedemo.model.Music;
-import com.database.zhangxq.databasedemo.model.User;
 import com.database.zhangxq.databasedemo.service.TestService;
-import com.database.zhangxq.databasedemo.ui.sugerrecorddemo.AddActivity_;
 import com.database.zhangxq.databasedemo.utils.AsyncResponseHandler;
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
+import com.viewinject.ViewHelper;
+import com.viewinject.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@EActivity(R.layout.activity_local_data)
 public class LocalDataActivity extends Activity{
     private TestService testService;
 
-    @ViewById
+    @ViewInject(R.id.listView)
     ListView listView;
     private ListAdapter adapter;
     private List<Music> musics;
 
-    @AfterViews
-    void afterViews() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_local_data);
+        ViewHelper.inject(this);
+
         testService = new TestService();
         musics = new ArrayList<Music>();
         adapter = new ListAdapter();

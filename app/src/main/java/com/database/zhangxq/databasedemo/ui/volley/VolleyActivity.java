@@ -1,6 +1,7 @@
 package com.database.zhangxq.databasedemo.ui.volley;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,33 +12,33 @@ import android.widget.Toast;
 import com.database.zhangxq.databasedemo.R;
 import com.database.zhangxq.databasedemo.model.Contributor;
 import com.database.zhangxq.databasedemo.service.TestService;
-import com.database.zhangxq.databasedemo.utils.ACache;
 import com.database.zhangxq.databasedemo.utils.AsyncResponseHandler;
+import com.viewinject.ViewHelper;
+import com.viewinject.annotation.ViewInject;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by zhangxq on 15/7/30.
  */
-@EActivity(R.layout.activity_volley)
-public class VolleyActivity extends Activity {
-    private TestService testService;
 
+public class VolleyActivity extends Activity {
+
+    private TestService testService;
     private List<Contributor> contributors;
 
-    @ViewById
+    @ViewInject(R.id.listView)
     ListView listView;
 
     private ListViewAdapter adapter;
 
-    @AfterViews
-    void afterViews() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_volley);
+        ViewHelper.inject(this);
+
         testService = new TestService();
         contributors = new ArrayList<Contributor>();
         adapter = new ListViewAdapter();
